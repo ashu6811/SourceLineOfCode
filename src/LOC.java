@@ -2,26 +2,47 @@ import java.io.*;
 import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Scanner;
 
 public class LOC {
     // All the static Variables
     public static ArrayList<File> allJavaFiles = new ArrayList<>();
-    public static ArrayList<File> uniqueJavaFiles = new ArrayList<>();
+    public static Integer numFiles = 0;
+    public static Integer numUniqueFiles = 0;
     public static Integer numBlankLines = 0;
     public static Integer numCodeLines = 0;
     public static Integer numCommentLines = 0;
     public static Integer numTotalLines = 0;
     //MAIN Function
     public static void main(String[] args) {
-        String path = "/Users/ashmeetsingh/Downloads/commons-io-master";
-        System.out.print(calcNumOfFiles(path) + " - ");
-        System.out.print(calcNumOfUniqueFiles()+ " - ");
-        calcLines();
-        System.out.println(numBlankLines + " - " + numCommentLines + " - " + numCodeLines);
+        Scanner input = new Scanner(System.in);
+        String path = input.nextLine();
+        //"/Users/ashmeetsingh/Downloads/commons-io-master"
+        //"/Users/ashmeetsingh/Downloads/FileCleaner.java"
+        //"/Users/ashmeetsingh/Downloads/2880088001"
+        try
+        {
+            File file = new File(path);
+            if (file.isFile() && isJava(file))
+            {
+                allJavaFiles.add(file);
+                numFiles = 1;
+                numUniqueFiles =1;
+                calcLines();
+            }
+            else
+            {
+                calcNumOfFiles(path);
+                calcNumOfUniqueFiles();
+                calcLines();
+            }
+        }
+        catch(Exception ex)
+        {
+            //System.out.println(ex);
+        }
 
-
-
-
+        System.out.print(numFiles+  "-" + numUniqueFiles + "-"+numBlankLines + "-" + numCommentLines + "-" + numCodeLines);
     }
 
     //All the static Functions
@@ -49,11 +70,12 @@ public class LOC {
                     count += calcNumOfFiles(f.getPath());
                 }
             }
+            numFiles = count;
             return count;
         }
         catch (Exception ex)
         {
-            System.out.println(ex);
+            //System.out.println(ex);
         }
 
     return null;
@@ -73,6 +95,7 @@ public class LOC {
                     }
                 }
             }
+            numUniqueFiles = allJavaFiles.size();
             return allJavaFiles.size();
             //System.out.println(compareFiles(allJavaFiles.get(222), allJavaFiles.get(222)));
             //System.out.println(compareFiles(allJavaFiles.get(1), allJavaFiles.get(0)));
@@ -80,7 +103,7 @@ public class LOC {
         }
         catch (Exception ex)
         {
-            System.out.println(ex);
+            //System.out.println(ex);
         }
 
         return allJavaFiles.size();
@@ -110,7 +133,7 @@ public class LOC {
         }
         catch (Exception ex)
         {
-            System.out.println(ex);
+            //System.out.println(ex);
         }
 
        return false;
@@ -160,6 +183,4 @@ public class LOC {
         }
         return numBlankLines;
     }
-
-
 }
