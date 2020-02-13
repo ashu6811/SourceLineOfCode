@@ -8,6 +8,7 @@ public class LOC {
     // All the static Variables
     public static ArrayList<File> allJavaFiles = new ArrayList<>();
     public static Integer numFiles = 0;
+
     public static Integer numUniqueFiles = 0;
     public static Integer numBlankLines = 0;
     public static Integer numCodeLines = 0;
